@@ -3,8 +3,31 @@
 import numpy as np
 import pandas as pd
 from keras.utils import np_utils 
+from keras.models import model_from_json
+
+
+def moving_average(a, n=3) :
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+
+
+def moving_max(a, w=3) :
+    ret = np.zeros(a.shape)
+    if w <= len(a):
+        for n in range(len(a)):
+            if n < w:
+                ret[n] = a[n]
+            else:
+                ret[n] = np.max(a[n-w:n])
+        return ret
+    else:
+        return(None)
+
+
 
 def load_model(file):
+    
     # load json and create model
     json_file = open(file+'.json', 'r')
     loaded_model_json = json_file.read()
