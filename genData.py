@@ -35,7 +35,6 @@ def load_model(file):
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
     loaded_model.load_weights(file+'.h5')
-    print("Loaded model from disk")
     return loaded_model
 
 
